@@ -1,8 +1,5 @@
-# config.py
 import re
 
-# Linguagens suportadas (APENAS AS COM ANÁLISE DE DEPENDÊNCIA AST ROBUSTA)
-# A UI usará esta lista.
 SUPPORTED_LANGUAGES = {
     "Python": [".py", ".pyw"],
     "JavaScript": [".js", ".jsx"],
@@ -22,8 +19,8 @@ for lang_exts in SUPPORTED_LANGUAGES.values():
 COMMENT_PATTERNS = {
     ".py": [
         (re.compile(r'#.*'), 0),
-        (re.compile(r'"""(?:.|\n)*?"""', re.DOTALL), 0),
-        (re.compile(r"'''(?:.|\n)*?'''", re.DOTALL), 0)
+        (re.compile(r'"""(?:.|\n)*?"""', re.DOTALL), 0), # Captura docstrings/comentários multilinhas com aspas duplas
+        (re.compile(r"'''(?:.|\n)*?'''", re.DOTALL), 0)  # Captura docstrings/comentários multilinhas com aspas simples
     ],
     ".pyw": [
         (re.compile(r'#.*'), 0),
@@ -37,7 +34,7 @@ COMMENT_PATTERNS = {
     ".jsx": [
         (re.compile(r'//.*'), 0),
         (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0),
-        (re.compile(r'{/\*(?:.|\n)*?\*/}'), 0)
+        (re.compile(r'{/\*(?:.|\n)*?\*/}'), 0) # Comentários de bloco dentro de expressões JSX
     ],
     ".ts": [
         (re.compile(r'//.*'), 0),
@@ -46,7 +43,7 @@ COMMENT_PATTERNS = {
     ".tsx": [
         (re.compile(r'//.*'), 0),
         (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0),
-        (re.compile(r'{/\*(?:.|\n)*?\*/}'), 0)
+        (re.compile(r'{/\*(?:.|\n)*?\*/}'), 0) # Comentários de bloco dentro de expressões TSX/JSX
     ],
     ".html": [(re.compile(r'<!--(?:.|\n)*?-->', re.DOTALL), 0)],
     ".htm": [(re.compile(r'<!--(?:.|\n)*?-->', re.DOTALL), 0)],
@@ -55,7 +52,7 @@ COMMENT_PATTERNS = {
         (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)
     ],
     ".h": [ # Comum para C e C++
-        (re.compile(r'//.*'), 0),
+        (re.compile(r'//.*'), 0), # // é padrão em C++ e C99 em diante
         (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)
     ],
     ".hpp": [
@@ -71,12 +68,17 @@ COMMENT_PATTERNS = {
         (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)
     ],
     ".c": [
-        (re.compile(r'//.*'), 0),
+        (re.compile(r'//.*'), 0), # Aceitável, pois C99 suporta, e muitos compiladores aceitam mesmo para padrões mais antigos
         (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)
     ],
-    ".css": [(re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)], # Exemplo de manutenção para limpeza
-    ".sql": [ (re.compile(r'--.*'), 0), (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)],
-    ".md": [], ".txt": []
+    # Exemplos de manutenção para limpeza de outros tipos de arquivo, se necessário
+    ".css": [(re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)],
+    ".sql": [
+        (re.compile(r'--.*'), 0),
+        (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)
+    ],
+    ".md": [], # Markdown não tem um padrão de comentário universal para remover, geralmente o conteúdo é literal
+    ".txt": []  # Arquivos de texto simples geralmente não têm sintaxe de comentário formal
 }
 
 # Pastas e arquivos a serem ignorados universalmente (mantido)
@@ -88,5 +90,3 @@ IGNORED_ITEMS = {
     "package-lock.json", "yarn.lock", "composer.lock", "Pipfile.lock", "poetry.lock",
     "Gemfile.lock", "go.sum", "Cargo.lock",
 }
-
-# ROBUST_DEPENDENCY_SUPPORTED_EXTENSIONS não é mais necessário, usamos ALL_EFFECTIVELY_SUPPORTED_EXTENSIONS
