@@ -74,12 +74,6 @@ COMMENT_PATTERNS = {
         (re.compile(r'//.*'), 0),
         (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)
     ],
-    # CSS, SQL, Markdown, Text, Java, C#, Go, Ruby, PHP, Swift, Kotlin, Rust foram removidos
-    # de COMMENT_PATTERNS se não estiverem mais em SUPPORTED_LANGUAGES,
-    # ou mantidos se ainda forem úteis para limpeza mesmo sem análise de dependência.
-    # Por simplicidade, vamos manter os padrões de comentário para CSS, SQL, MD, TXT caso
-    # o usuário queira processá-los apenas para limpeza, mas eles não aparecerão na lista de linguagens
-    # para seleção de dependência.
     ".css": [(re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)], # Exemplo de manutenção para limpeza
     ".sql": [ (re.compile(r'--.*'), 0), (re.compile(r'/\*(?:.|\n)*?\*/', re.DOTALL), 0)],
     ".md": [], ".txt": []
